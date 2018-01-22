@@ -1,0 +1,51 @@
+.game-field {
+  width: 300px;
+  height: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+}
+.game-field-row {
+  height: 100px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+.game-field-letter {
+  position: absolute;
+  left: -15px;
+  top: 50%;
+}
+.row-element {
+  height: 100%;
+  width: calc(100% / 3);
+  border: 1px solid #000000;
+  cursor: pointer;
+}
+.row-element--cross {
+  background-image: url('./../icons/cross.png');
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+.row-element--oval {
+  background-image: url('./../icons/oval.png');
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+.score-container {
+  display: flex;
+  flex-direction: column;
+}
+.restart-button {
+  margin-bottom: 25px;
+  margin-left: 15px;
+}
+.game-field-numbers-container {
+  display: flex;
+  justify-content: space-between;
+}
+.game-field-number {
+  width: calc(100% / 3);
+  text-align: center;
+}
