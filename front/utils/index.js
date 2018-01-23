@@ -24,23 +24,28 @@ export const initialGameState = {
   },
 };
 
-export const fetchApi = (method, url, body, headers) => {
-  const baseUrl = 'http://localhost:3000/api';
-  let result = null;
+export const baseUrl = 'http://localhost:3000/api';
 
-  if (method === 'GET') {
-    fetch(`${baseUrl}${url}`)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log('initial data: ', data.result);
-        result = data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    return result;
-  }
-  console.log('hi');
+export const initalScoreState = {
+  ok: true,
+  result: {
+    a: 0,
+    player: 0,
+    X: 5,
+    O: 4,
+    list: [],
+  },
+};
+
+export const getAiMove = (board, stateBoard, aiFigure) => {
+  let result = null;
+  board.forEach((element, index) => {
+    element.forEach((item, innerIndex) => {
+      const testVar = stateBoard[index];
+      if (item !== testVar[innerIndex] && item === aiFigure) {
+        result = { player: 'ai', move: `${index} ${innerIndex}` };
+      }
+    });
+  });
+  return result;
 };

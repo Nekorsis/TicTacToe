@@ -1,36 +1,22 @@
 import React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
+import * as actionCreators from './../../redux/actionCreators.js';
 
 class ScoreScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      resultsList: null,
-    };
-  }
   componentWillMount() {
-    fetch('http://localhost:3000/api/score')
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log('score: ', data.result);
-        this.setState({
-          resultsList: data.result.list,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.props.actions.requestScore();
   }
 
   render() {
-    const scoreData = this.state.resultsList ? this.state.resultsList.filter(element => element.winner) : null;
+    const scoreData = this.props.state.appReducers.score
+      ? this.props.state.appReducers.score.filter(element => element.winner) : null;
     let playerScore = null;
     let aiScore = null;
     if (scoreData !== null) {
       playerScore = scoreData.filter(item => item.winner === 'player');
       aiScore = scoreData.filter(item => item.winner === 'ai');
-      console.log('test: ', scoreData, 'player score: ', playerScore, 'ai score: ', aiScore);
     }
     return (
       <div className="score-container">
@@ -48,4 +34,17 @@ class ScoreScreen extends React.Component {
   }
 }
 
-export default ScoreScreen;
+const mapStateToProps = (state) => {
+  return {
+    state,
+  };
+};
+
+const Connect = connect(
+  mapStateToProps,
+  dispatch => ({
+    actions: bindActionCreators(actionCreators, dispatch),
+  }),
+)(ScoreScreen);
+
+export default Connect;
