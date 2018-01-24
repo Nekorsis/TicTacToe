@@ -31,8 +31,8 @@ export const initalScoreState = {
   result: {
     a: 0,
     player: 0,
-    X: 5,
-    O: 4,
+    X: 0,
+    O: 0,
     list: [],
   },
 };

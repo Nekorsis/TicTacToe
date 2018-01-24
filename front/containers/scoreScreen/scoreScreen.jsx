@@ -10,21 +10,31 @@ class ScoreScreen extends React.Component {
   }
 
   render() {
-    const scoreData = this.props.state.appReducers.score
-      ? this.props.state.appReducers.score.filter(element => element.winner) : null;
+    const scoreData = this.props.appState.score
+      ? this.props.appState.score : null;
     let playerScore = null;
     let aiScore = null;
+    let draws = null;
     if (scoreData !== null) {
       playerScore = scoreData.filter(item => item.winner === 'player');
       aiScore = scoreData.filter(item => item.winner === 'ai');
+      draws = scoreData.filter(item => !item.winner);
     }
     return (
       <div className="score-container">
         {scoreData !== null
           ?
             <div>
-              <div>{`player score: ${playerScore.length}`}</div>
-              <div>{`ai score: ${aiScore.length}`}</div>
+              Total score
+              <div>{`Player: ${playerScore.length} AI: ${aiScore.length} Draws: ${draws.length}`}</div>
+              <div className="game-history-container">
+                {scoreData.map((item) => {
+                  if (item.winner && item.team) {
+                    return <div key={item.ts}>{`Winner: ${item.winner} Team: ${item.team}`}</div>;
+                  }
+                  return <div key={item.ts}>Draw</div>;
+                })}
+              </div>
             </div>
           :
             <div>Score is 0 : 0</div>
@@ -36,7 +46,7 @@ class ScoreScreen extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    state,
+    appState: state.appReducers,
   };
 };
 

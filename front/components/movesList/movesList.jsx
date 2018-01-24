@@ -2,7 +2,7 @@ import React from 'react';
 
 const MovesList = (moves) => {
 
-  const parseMoveFormat = (move) => {
+  const formatMove = (move) => {
     if (move.player !== 'ai') {
       return `${move.player}: ${move.move}`;
     }
@@ -18,16 +18,16 @@ const MovesList = (moves) => {
   };
 
   return (
-    <div>
+    <div className="moves-list-container">
       {moves.length !== 0
         ? moves.moves.map((item) => {
           return (
             <div key={Math.random()}>
-              {item !== null ? `${parseMoveFormat(item)}` : null}
+              {item !== null ? `${formatMove(item)}` : null}
             </div>
           );
       })
-        : null}
+        : '-----'}
     </div>
   );
 };

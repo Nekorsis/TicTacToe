@@ -1,9 +1,9 @@
 import { actionTypes as types } from './actionTypes.js';
-import { getAiMove, initialGameState, initalScoreState } from './../utils/index.js';
+import { getAiMove, initialGameState, initalScoreState, baseUrl } from './../utils/index.js';
 
 export const requestGame = () => {
   return (dispatch) => {
-    fetch('http://localhost:3000/api/game')
+    fetch(`${baseUrl}/game`)
       .then((response) => {
         return response.json();
       })
@@ -18,7 +18,7 @@ export const requestGame = () => {
 
 export const requestNextGame = () => {
   return (dispatch) => {
-    fetch('http://localhost:3000/api/game/next')
+    fetch(`${baseUrl}/game/next`)
       .then((response) => {
         return response.json();
       })
@@ -32,6 +32,33 @@ export const requestNextGame = () => {
           dispatch({ type: types.RESET_MOVE_LIST });
         }
         dispatch({ type: types.REQUEST_NEXT_GAME, payload: data });
+      });
+  };
+};
+
+export const resetGame = () => {
+  return (dispatch) => {
+    const requestBody = {
+      index: initialGameState,
+    };
+    const httpHeaders = {
+      'Content-Type': 'application/json',
+    };
+    const myHeaders = new Headers(httpHeaders);
+
+    fetch(`${baseUrl}/game/reset`, {
+      method: 'POST',
+      body: JSON.stringify(requestBody),
+      headers: myHeaders,
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        dispatch({ type: types.RESET_GAME, payload: data });
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 };
@@ -53,7 +80,7 @@ export const sendNextMove = (move, boardState) => {
     };
     const myHeaders = new Headers(httpHeaders);
 
-    fetch('http://localhost:3000/api/game/move', {
+    fetch(`${baseUrl}/game/move`, {
       method: 'POST',
       body: JSON.stringify(requestBody),
       headers: myHeaders,
@@ -71,7 +98,7 @@ export const sendNextMove = (move, boardState) => {
 
 export const requestScore = () => {
   return (dispatch) => {
-    fetch('http://localhost:3000/api/score')
+    fetch(`${baseUrl}/score`)
       .then((response) => {
         return response.json();
       })
@@ -90,7 +117,7 @@ export const resetScore = () => {
       'Content-Type': 'application/json',
     };
     const myHeaders = new Headers(httpHeaders);
-    fetch('http://localhost:3000/api/score/reset', {
+    fetch(`${baseUrl}/score/reset`, {
       method: 'POST',
       body: JSON.stringify(requestBody),
       headers: myHeaders,

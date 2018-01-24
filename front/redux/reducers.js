@@ -6,6 +6,9 @@ const initialState = {
   isGameEnded: false,
   listOfMoves: [],
   score: null,
+  aiTeam: null,
+  playerTeam: null,
+  isServerOn: null,
 };
 
 const appReducers = (state = initialState, action) => {
@@ -13,6 +16,8 @@ const appReducers = (state = initialState, action) => {
     case types.REQUEST_GAME:
       return {
         ...state,
+        aiTeam: action.payload.result.ai,
+        playerTeam: action.payload.result.player,
         gameBoard: action.payload.result.board,
         isGameEnded: action.payload.result.end,
       };
@@ -35,6 +40,8 @@ const appReducers = (state = initialState, action) => {
     case types.REQUEST_NEXT_GAME:
       return {
         ...state,
+        aiTeam: action.payload.result.ai,
+        playerTeam: action.payload.result.player,
         gameBoard: action.payload.result.board,
         isGameEnded: action.payload.result.end,
       };
@@ -47,6 +54,13 @@ const appReducers = (state = initialState, action) => {
       return {
         ...state,
         score: [],
+      };
+    case types.RESET_GAME:
+      return {
+        ...state,
+        aiTeam: action.payload.result.ai,
+        playerTeam: action.payload.result.player,
+        gameBoard: action.payload.result.board,
       };
     default:
       return state;
